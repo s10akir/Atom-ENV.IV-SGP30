@@ -108,8 +108,8 @@ void initializeTimer() {
   syncSemaphore = xSemaphoreCreateBinary();
   timer = timerBegin(0, 80, true); // 80 clock = 1us
   timerAttachInterrupt(timer, &onTimer, true);
-  timerAlarmWrite(timer, 1000 * 1000 * 60,
-                  true); // 1000us * 1000 * 60 = 1min
+  timerAlarmWrite(timer, 1000 * 1000 * 10,
+                  true); // 1000us * 1000 * 10 = 10sec
   timerAlarmEnable(timer);
 }
 
@@ -123,8 +123,13 @@ void setup() {
   influxDbClient.setInsecure();
 
   sht4xPoint.addTag("sensor", "ENV.IV");
+  sht4xPoint.addTag("location", "working-room");
+
   bmp280Point.addTag("sensor", "ENV.IV");
+  bmp280Point.addTag("location", "working-room");
+
   sgp30Point.addTag("sensor", "TVOC/eCO2");
+  sgp30Point.addTag("location", "working-room");
 
   initializeSensors();
   initializeTimer();
